@@ -7,14 +7,29 @@ using Microsoft.Extensions.Logging;
 
 namespace WebApi.Controllers {
   [ApiController]
-  [Route ("[controller]")]
+  [Route ("api/[controller]")]
   public class ExampleController : ControllerBase {
-
-    public ExampleController () {
-
+    private readonly SqlConnection _connection;
+    public ExampleController (IOptions<ConnectionStrings> connectionString) {
+      _connection = new SqlConnection (connectionString.Value.PrimaryDatabaseConnectionString);
     }
 
     [HttpGet]
-    public void Get () { }
+    [Route ("Search")]
+    public async Task<ActionResult> Search () {
+      return Ok ("Search !");
+    }
+
+    [HttpPost]
+    [Route ("Insert")]
+    public async Task<ActionResult> Insert () {
+      return Ok ("Insert !");
+    }
+
+    [HttpPut]
+    [Route ("Update")]
+    public async Task<ActionResult> Update () {
+      return Ok ("Update !");
+    }
   }
 }
