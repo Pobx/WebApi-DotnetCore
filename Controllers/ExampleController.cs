@@ -15,19 +15,22 @@ namespace WebApi.Controllers {
     }
 
     [HttpGet]
-    [Route ("Search")]
+    [Route]
+    public async Task<ActionResult> Search () {
+      return Ok ("Search !");
+    }
+
+    [HttpGet ("{id}")]
     public async Task<ActionResult> Search () {
       return Ok ("Search !");
     }
 
     [HttpPost]
-    [Route ("Insert")]
     public async Task<ActionResult> Insert () {
-      return Ok ("Insert !");
+      return Create ("", "Insert !");
     }
 
     [HttpPut]
-    [Route ("Update")]
     public async Task<ActionResult> Update () {
       return Ok ("Update !");
     }
