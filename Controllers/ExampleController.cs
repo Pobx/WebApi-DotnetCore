@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebApi.Utilities;
 
 namespace WebApi.Controllers {
   [ApiController]
@@ -14,23 +17,26 @@ namespace WebApi.Controllers {
     }
 
     [HttpGet]
-    [Route]
     public async Task<ActionResult> Search () {
+      await Task.CompletedTask;
       return Ok ("Search !");
     }
 
     [HttpGet ("{id}")]
     public async Task<ActionResult> Find () {
+      await Task.CompletedTask;
       return Ok ("Search !");
     }
 
     [HttpPost]
     public async Task<ActionResult> Insert () {
-      return Create ("", "Insert !");
+      await Task.CompletedTask;
+      return Created ("", "Insert !");
     }
 
     [HttpPut]
     public async Task<ActionResult> Update () {
+      await Task.CompletedTask;
       return Ok ("Update !");
     }
   }

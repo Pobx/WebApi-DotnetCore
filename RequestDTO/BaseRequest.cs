@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 namespace WebApi.RequestDTO {
   public class BaseRequest {
     public DateTime CurrentDateTime { get; } = DateTime.UtcNow;
