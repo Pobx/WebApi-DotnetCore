@@ -14,6 +14,7 @@ namespace WebApi.Controllers {
     private readonly SqlConnection _connection;
     public ExampleController (IOptions<ConnectionStrings> connectionString) {
       _connection = new SqlConnection (connectionString.Value.PrimaryDatabaseConnectionString);
+      Console.WriteLine($"connectionString ===========> {connectionString.Value.PrimaryDatabaseConnectionString}");
     }
 
     [HttpGet]
