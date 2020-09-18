@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using WebApi.Utilities;
 
 namespace WebApi {
@@ -48,7 +49,7 @@ namespace WebApi {
 
       services.Configure<ConnectionStrings> (Configuration.GetSection ("ConnectionStrings"));
 
-      services.AddControllers ();
+      services.AddControllers ().AddNewtonsoftJson (options => options.SerializerSettings.ContractResolver = new DefaultContractResolver ());
 
     }
 
