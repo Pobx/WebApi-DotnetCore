@@ -22,8 +22,13 @@ namespace WebApi.Controllers {
 
     [HttpGet]
     public async Task<ActionResult> Search () {
+      var currentPageIndex = 0;
+      var PageSize = 10;
+
       var response = new BaseResponse<IEnumerable<ExampleDemo>> ();
       response.Entities = await _connection.GetAllAsync<ExampleDemo> ();
+      response.TotalRows = response.Entities.Count ();
+      response.Entities = response.Entities.Skip (currentPageIndex * PageSize).Take (PageSize).ToList ();
       return Ok (response);
 
     }
