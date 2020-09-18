@@ -1,8 +1,13 @@
 using System;
+using Dapper.Contrib.Extensions;
+
 namespace WebApi.Entities {
+
+  [Table ("ExampleWebApiDotnetCore")]
   public class ExampleDemo : IEntities {
-    
+    [Key]
     public int Id { get; set; }
+
     public string Name { get; set; }
     public string IsActive { get; set; } = "Y";
     public string CreatedBy { get; set; } = "Pobx";
