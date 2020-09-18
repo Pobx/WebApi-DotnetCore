@@ -23,7 +23,7 @@ namespace WebApi.Controllers {
     }
 
     [HttpGet ("{id}")]
-    public async Task<ActionResult> Find () {
+    public async Task<ActionResult> Find (int id) {
       await Task.CompletedTask;
       return Ok ("Search !");
     }

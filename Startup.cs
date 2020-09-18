@@ -20,18 +20,16 @@ namespace WebApi {
     }
 
     public IConfiguration Configuration { get; }
-    readonly string SiteCorsPolicy = "SiteCorsPolicy";
+    const string SiteCorsPolicy = "SiteCorsPolicy";
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices (IServiceCollection services) {
-      services.Configure<ConnectionStrings> (Configuration.GetSection ("ConnectionStrings"));
 
-      services.AddControllers ();
-      // services.AddCors (options => {
-      //   options.AddPolicy (SiteCorsPolicy, builder => {
-      //     builder.AllowAnyOrigin ().AllowAnyMethod ().AllowAnyHeader ().AllowCredentials ().WithExposedHeaders ("Content-Disposition");
-      //   });
-      // });
+      services.AddCors (options => {
+        options.AddPolicy (SiteCorsPolicy, builder => {
+          builder.AllowAnyOrigin ().AllowAnyMethod ().AllowAnyHeader ().WithExposedHeaders ("Content-Disposition");
+        });
+      });
 
       services.AddSwaggerGen (c => {
         c.SwaggerDoc ("v1", new OpenApiInfo {
@@ -48,6 +46,10 @@ namespace WebApi {
         });
       });
 
+      services.Configure<ConnectionStrings> (Configuration.GetSection ("ConnectionStrings"));
+
+      services.AddControllers ();
+
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,8 +58,6 @@ namespace WebApi {
         app.UseDeveloperExceptionPage ();
       }
 
-      app.UseCors (SiteCorsPolicy);
-
       // Enable middleware to serve generated Swagger as a JSON endpoint.
       app.UseSwagger ();
 
@@ -65,11 +65,14 @@ namespace WebApi {
       // specifying the Swagger JSON endpoint.
       app.UseSwaggerUI (c => {
         c.SwaggerEndpoint ("/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = string.Empty;
       });
 
       app.UseHttpsRedirection ();
 
       app.UseRouting ();
+
+      app.UseCors (SiteCorsPolicy);
 
       app.UseAuthorization ();
 
