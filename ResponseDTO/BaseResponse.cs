@@ -7,7 +7,7 @@ namespace WebApi.ResponseDTO {
     public DateTime CurrentDateTime { get; } = DateTime.UtcNow;
     public List<string> ErrorMessages { get; set; } = new List<string> ();
     public int TotalRows { get; set; } = 0;
-    public int TotalPages { get; set; } = 0;
+    public int PageSize { get; set; } = 10;
 
   }
 }
