@@ -3,41 +3,52 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using WebApi.Entities;
+using WebApi.ResponseDTO;
 using WebApi.Utilities;
 
 namespace WebApi.Controllers {
   [ApiController]
   [Route ("api/[controller]")]
   public class ExampleController : ControllerBase {
-    private readonly SqlConnection _connection;
+    readonly SqlConnection _connection;
+
     public ExampleController (IOptions<ConnectionStrings> connectionString) {
       _connection = new SqlConnection (connectionString.Value.PrimaryDatabaseConnectionString);
     }
 
     [HttpGet]
     public async Task<ActionResult> Search () {
-      await Task.CompletedTask;
-      return Ok ("Search !");
+      var response = new BaseResponse<IEnumerable<ExampleDemo>> ();
+      response.Entities = await _connection.GetAllAsync<ExampleDemo> ();
+      return Ok (response);
+
     }
 
     [HttpGet ("{id}")]
     public async Task<ActionResult> Find (int id) {
-      await Task.CompletedTask;
-      return Ok ("Search !");
+      var response = new BaseResponse<ExampleDemo> ();
+      response.Entities = await _connection.GetAsync<ExampleDemo> (id);
+      return Ok (response);
     }
 
     [HttpPost]
-    public async Task<ActionResult> Insert () {
-      await Task.CompletedTask;
-      return Created ("", "Insert !");
+    public async Task<ActionResult> Insert ([FromBody] ExampleDemo criteria) {
+      var response = new BaseResponse<ExampleDemo> ();
+      await _connection.InsertAsync (criteria);
+      response.Entities = criteria;
+      return Created ("", response);
     }
 
     [HttpPut]
-    public async Task<ActionResult> Update () {
-      await Task.CompletedTask;
-      return Ok ("Update !");
+    public async Task<ActionResult> Update ([FromBody] ExampleDemo criteria) {
+      var response = new BaseResponse<ExampleDemo> ();
+      await _connection.UpdateAsync (criteria);
+      response.Entities = criteria;
+      return Ok (response);
     }
   }
 }
