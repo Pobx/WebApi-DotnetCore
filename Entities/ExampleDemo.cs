@@ -3,7 +3,7 @@ using Dapper.Contrib.Extensions;
 
 namespace WebApi.Entities {
 
-  [Table ("ExampleWebApiDotnetCore")]
+  [Table ("ExampleDemo")]
   public class ExampleDemo : IEntities {
     [Key]
     public int Id { get; set; }
